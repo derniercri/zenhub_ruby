@@ -14,7 +14,7 @@ module ZenhubRuby
       end
 
       def update_estimate(repo_name, issue_number, estimate)
-        put "/p1/repositories/#{github.repo_id(repo_name)}/issues/#{issue_number}/estimate"
+        put "/p1/repositories/#{github.repo_id(repo_name)}/issues/#{issue_number}/estimate", body: { estimate: estimate }
       end
     end
   end
