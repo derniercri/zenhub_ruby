@@ -9,6 +9,10 @@ module ZenhubRuby
       api_connection.get(path)
     end
 
+    def put(path, payload)
+      api_connection.put(path, payload)
+    end
+
     private
 
     def api_connection
