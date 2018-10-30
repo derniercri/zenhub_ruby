@@ -12,25 +12,15 @@ module ZenhubRuby
     private
 
     def api_connection
-      @api_connection  ||= Faraday::Connection.new(END_POINT, connect_options)
-    end
-
-    def connect_options
-      @connect_options ||= {
-        builder: middleware,
-        headers: {
+      Faraday.new(url: END_POINT) do |conn|
+        conn.request :url_encoded
+        conn.response :json, content_type: /\bjson$/
+        conn.adapter Faraday.default_adapter
+        conn.headers = {
           accept: 'application/json',
           user_agent: "ZenhubRuby v#{VERSION}",
           x_authentication_token: zenhub_access_token
         }
-      }
-    end
-
-    def middleware
-      @middleware ||= Faraday::RackBuilder.new do |builder|
-        builder.request :url_encoded
-        builder.adapter :net_http
-        builder.response :json, content_type: /\bjson$/
       end
     end
   end
