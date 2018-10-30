@@ -9,6 +9,12 @@ module ZenhubRuby
       api_connection.get(path)
     end
 
+    def post(path, params)
+      api_connection.post(path) do |req|
+        req.body = params
+      end
+    end
+
     private
 
     def api_connection
