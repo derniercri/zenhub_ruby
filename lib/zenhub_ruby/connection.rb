@@ -15,6 +15,10 @@ module ZenhubRuby
       end
     end
 
+    def put(path, payload)
+      api_connection.put(path, payload)
+    end
+
     private
 
     def api_connection
