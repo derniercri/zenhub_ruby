@@ -11,6 +11,7 @@ module ZenhubRuby
 
     def post(path, params)
       api_connection.post(path) do |req|
+
         req.body = params
       end
     end
@@ -19,12 +20,23 @@ module ZenhubRuby
       api_connection.put(path, payload)
     end
 
+    def patch(path, params)
+      api_connection.patch(path) do |req|
+        puts params.inspect
+
+        req.body = params
+      end
+    end
+
     private
 
     def api_connection
       Faraday.new(url: END_POINT) do |conn|
-        conn.request :url_encoded
+        conn.request :json
+
         conn.response :json, content_type: /\bjson$/
+        conn.response :logger
+
         conn.adapter Faraday.default_adapter
         conn.headers = {
           accept: 'application/json',
